@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.lorram.elections.dto.UserDTO;
 import com.lorram.elections.entities.User;
 import com.lorram.elections.repositories.UserRepository;
+import com.lorram.elections.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -23,9 +24,26 @@ public class UserService {
 	}
 	
 	public UserDTO findById(Long id) {
-		Optional<User> user = repository.findById(id);
-		
-		return null;
+		Optional<User> obj = repository.findById(id);
+		User user = obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return new UserDTO(user);
 	}
 	
+	public UserDTO insert(UserDTO dto) {
+		User user = new User();
+		user.setName(dto.name());
+		repository.save(user);
+		return new UserDTO(user);
+	}
+	
+	public UserDTO update(UserDTO dto, Long id) {
+		User user = repository.getReferenceById(id);
+		user.setName(dto.name());
+		user = repository.save(user);
+		return new UserDTO(user);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 }
