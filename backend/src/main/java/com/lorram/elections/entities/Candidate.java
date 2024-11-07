@@ -16,25 +16,27 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@Table(name = "tb_candidate")
+public class Candidate implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private Integer number;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "candidate", fetch = FetchType.EAGER)
 	private List<Vote> votes = new ArrayList<>();
 	
-	public User() {
+	public Candidate() {
 	}
 
-	public User(Long id, String name, List<Vote> votes) {
+	public Candidate(Long id, String name, Integer number, List<Vote> votes) {
 		this.id = id;
 		this.name = name;
+		this.number = number;
 		this.votes = votes;
 	}
 
@@ -54,6 +56,14 @@ public class User implements Serializable {
 		this.name = name;
 	}
 	
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
 	public List<Vote> getVotes() {
 		return votes;
 	}
@@ -62,7 +72,7 @@ public class User implements Serializable {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -71,7 +81,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Candidate other = (Candidate) obj;
 		return Objects.equals(id, other.id);
 	}
 }
