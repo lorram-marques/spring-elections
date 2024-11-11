@@ -32,7 +32,7 @@ public class UserService {
 	public UserDTO insert(UserDTO dto) {
 		User user = new User();
 		user.setName(dto.name());
-		repository.save(user);
+		user = repository.save(user);
 		return new UserDTO(user);
 	}
 	

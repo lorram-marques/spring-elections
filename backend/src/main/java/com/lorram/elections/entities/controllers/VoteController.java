@@ -1,5 +1,7 @@
 package com.lorram.elections.entities.controllers;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lorram.elections.dto.VoteDTO;
 import com.lorram.elections.services.VoteService;
@@ -37,8 +40,9 @@ public class VoteController {
 	
 	@PostMapping
 	public ResponseEntity<VoteDTO> insert(@RequestBody VoteDTO dto) {
-		service.insert(dto);
-		return ResponseEntity.ok().body(dto);
+		VoteDTO vote = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vote.id()).toUri();
+		return ResponseEntity.created(uri).body(vote);
 	}
 	
 	@PutMapping(value = "/{id}")

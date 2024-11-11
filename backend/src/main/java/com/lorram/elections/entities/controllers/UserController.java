@@ -1,5 +1,7 @@
 package com.lorram.elections.entities.controllers;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lorram.elections.dto.UserDTO;
 import com.lorram.elections.services.UserService;
@@ -37,8 +40,9 @@ public class UserController {
 	
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO dto) {
-		service.insert(dto);
-		return ResponseEntity.ok().body(dto);
+		UserDTO user = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.id()).toUri();
+		return ResponseEntity.created(uri).body(user);
 	}
 	
 	@PutMapping(value = "/{id}")
