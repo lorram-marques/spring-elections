@@ -6,47 +6,49 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lorram.elections.dto.UserDTO;
-import com.lorram.elections.services.UserService;
+import com.lorram.elections.dto.VoteDTO;
+import com.lorram.elections.services.VoteService;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/votes")
 public class VoteController {
 				
 	@Autowired
-	private UserService service;
+	private VoteService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
-		Page<UserDTO> list = service.findAll(pageable);
+	public ResponseEntity<Page<VoteDTO>> findAll(Pageable pageable) {
+		Page<VoteDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findById(Long id) {
-		UserDTO dto = service.findById(id);
+	public ResponseEntity<VoteDTO> findById(@PathVariable Long id) {
+		VoteDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<UserDTO> insert(UserDTO dto) {
+	public ResponseEntity<VoteDTO> insert(@RequestBody VoteDTO dto) {
 		service.insert(dto);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(UserDTO dto, Long id) {
+	public ResponseEntity<VoteDTO> update(@RequestBody VoteDTO dto, @PathVariable Long id) {
 		service.update(dto, id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}	
