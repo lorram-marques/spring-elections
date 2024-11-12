@@ -33,7 +33,7 @@ public class CandidateService {
 		Candidate candidate = new Candidate();
 		candidate.setName(dto.name());
 		candidate.setNumber(dto.number());
-		repository.save(candidate);
+		candidate = repository.save(candidate);
 		return new CandidateDTO(candidate);
 	}
 	

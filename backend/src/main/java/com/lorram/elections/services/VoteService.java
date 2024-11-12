@@ -20,8 +20,10 @@ public class VoteService {
 	@Autowired
 	private VoteRepository repository;
 	
+	@Autowired
 	private CandidateRepository candidateRepository;
 	
+	@Autowired
 	private UserRepository userRepository;
 	
 	public Page<VoteDTO> findAll(Pageable pageable) {
@@ -39,7 +41,7 @@ public class VoteService {
 		Vote vote = new Vote();
 		vote.setCandidate(candidateRepository.getReferenceById(dto.candidateId()));
 		vote.setUser(userRepository.getReferenceById(dto.userId()));
-		repository.save(vote);
+		vote = repository.save(vote);
 		return new VoteDTO(vote);
 	}
 	
