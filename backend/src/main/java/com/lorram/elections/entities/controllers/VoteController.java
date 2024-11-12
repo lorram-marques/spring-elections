@@ -56,4 +56,8 @@ public class VoteController {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}	
+	
+	// Voting end points
+	
+	
 }

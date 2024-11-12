@@ -39,21 +39,24 @@ public class VoteService {
 	
 	public VoteDTO insert(VoteDTO dto) {
 		Vote vote = new Vote();
-		vote.setCandidate(candidateRepository.getReferenceById(dto.candidateId()));
-		vote.setUser(userRepository.getReferenceById(dto.userId()));
+		fromDto(dto, vote);
 		vote = repository.save(vote);
 		return new VoteDTO(vote);
 	}
 	
 	public VoteDTO update(VoteDTO dto, Long id) {
 		Vote vote = repository.getReferenceById(id);
-		vote.setCandidate(candidateRepository.getReferenceById(dto.candidateId()));
-		vote.setUser(userRepository.getReferenceById(dto.userId()));
+		fromDto(dto, vote);
 		vote = repository.save(vote);
 		return new VoteDTO(vote);
 	}
 	
 	public void delete(Long id) {
 		repository.deleteById(id);
+	}
+	
+	private void fromDto(VoteDTO voteDto, Vote vote) {
+		vote.setCandidate(candidateRepository.getReferenceById(voteDto.candidateId()));
+		vote.setUser(userRepository.getReferenceById(voteDto.userId()));
 	}
 }

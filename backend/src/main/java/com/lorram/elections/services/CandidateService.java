@@ -31,21 +31,24 @@ public class CandidateService {
 	
 	public CandidateDTO insert(CandidateDTO dto) {
 		Candidate candidate = new Candidate();
-		candidate.setName(dto.name());
-		candidate.setNumber(dto.number());
+		fromDto(dto, candidate);
 		candidate = repository.save(candidate);
 		return new CandidateDTO(candidate);
 	}
 	
 	public CandidateDTO update(CandidateDTO dto, Long id) {
 		Candidate candidate = repository.getReferenceById(id);
-		candidate.setName(dto.name());
-		candidate.setNumber(dto.number());
+		fromDto(dto, candidate);
 		candidate = repository.save(candidate);
 		return new CandidateDTO(candidate);
 	}
 	
 	public void delete(Long id) {
 		repository.deleteById(id);
+	}
+	
+	private void fromDto(CandidateDTO candidateDto, Candidate candidate) {
+		candidate.setName(candidateDto.name());
+		candidate.setNumber(candidateDto.number());
 	}
 }
