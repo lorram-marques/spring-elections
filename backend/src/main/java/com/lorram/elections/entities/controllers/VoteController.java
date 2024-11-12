@@ -38,9 +38,9 @@ public class VoteController {
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@PostMapping
-	public ResponseEntity<VoteDTO> insert(@RequestBody VoteDTO dto) {
-		VoteDTO vote = service.insert(dto);
+	@PostMapping(value = "/votecandidate/{id}")
+	public ResponseEntity<VoteDTO> insert(@RequestBody VoteDTO dto, @PathVariable Long candidateId) {
+		VoteDTO vote = service.insert(dto, candidateId);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vote.id()).toUri();
 		return ResponseEntity.created(uri).body(vote);
 	}
@@ -59,5 +59,8 @@ public class VoteController {
 	
 	// Voting end points
 	
-	
+	@GetMapping(value = "/placeholder")
+	public ResponseEntity<Void> result() {
+		return null;
+	}
 }
