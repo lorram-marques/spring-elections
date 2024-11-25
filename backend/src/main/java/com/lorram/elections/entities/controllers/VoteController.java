@@ -56,11 +56,4 @@ public class VoteController {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}	
-	
-	// Voting end points
-	
-	@GetMapping(value = "/placeholder")
-	public ResponseEntity<Void> result() {
-		return null;
-	}
 }
